@@ -5,7 +5,12 @@
     "description": "A sample Apache Cordova application that responds to the deviceready event.",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build-elm": "elm-make --yes src/Main.elm --output www/js/elm.js",
+        "watch-elm": "chokidar 'src/**/*.*' -c 'npm run build-elm'",
+        "serve": "cordova run browser",
+        "watch-www": "chokidar 'www/**/*.*' -c 'cordova prepare browser'",
+        "watch": "npm run build-elm && concurrently --kill-others-on-fail \"npm run watch-elm\" \"npm run watch-www\" \"npm run serve\""
     },
     "author": "Apache Cordova Team",
     "license": "Apache-2.0",
@@ -24,5 +29,10 @@
             "browser",
             "ios"
         ]
+    },
+    "devDependencies": {
+        "chokidar-cli": "^1.2.0",
+        "concurrently": "^3.5.0",
+        "elm": "^0.18.0"
     }
 }
