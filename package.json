@@ -1,34 +1,38 @@
 {
-  "name": "com.example.hello",
-  "displayName": "HelloWorld",
-  "version": "1.0.0",
-  "description": "A sample Apache Cordova application that responds to the deviceready event.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-elm": "elm-make --yes src/Main.elm --output www/js/elm.js",
-    "watch-elm": "chokidar 'src/**/*.*' -c 'npm run build-elm'",
-    "serve": "cordova run browser",
-    "watch-www": "chokidar 'www/**/*.*' -c 'cordova prepare browser'",
-    "watch": "npm run build-elm && concurrently --kill-others-on-fail \"npm run watch-elm\" \"npm run watch-www\" \"npm run serve\""
-  },
-  "author": "Ilias Van Peer",
-  "license": "MIT",
-  "dependencies": {
-    "cordova-android": "^6.2.3",
-    "cordova-browser": "^4.1.0",
-    "cordova-ios": "^4.4.0",
-    "cordova-plugin-whitelist": "^1.3.2"
-  },
-  "cordova": {
-    "plugins": {
-      "cordova-plugin-whitelist": {}
+    "name": "com.example.hello",
+    "displayName": "HelloWorld",
+    "version": "1.0.0",
+    "description": "A sample Apache Cordova application that responds to the deviceready event.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build-elm": "elm-make --yes src/Main.elm --output www/js/elm.js",
+        "watch-elm": "chokidar 'src/**/*.*' -c 'npm run build-elm'",
+        "serve": "cordova run browser",
+        "watch-www": "chokidar 'www/**/*.*' -c 'cordova prepare browser'",
+        "watch": "npm run build-elm && concurrently --kill-others-on-fail \"npm run watch-elm\" \"npm run watch-www\" \"npm run serve\""
     },
-    "platforms": ["android", "browser", "ios"]
-  },
-  "devDependencies": {
-    "chokidar-cli": "^1.2.0",
-    "concurrently": "^3.5.0",
-    "elm": "^0.18.0"
-  }
+    "author": "Ilias Van Peer",
+    "license": "MIT",
+    "dependencies": {
+        "cordova-android": "^6.2.3",
+        "cordova-browser": "^4.1.0",
+        "cordova-ios": "^4.4.0",
+        "cordova-plugin-whitelist": "^1.3.2"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-whitelist": {}
+        },
+        "platforms": [
+            "android",
+            "browser",
+            "ios"
+        ]
+    },
+    "devDependencies": {
+        "chokidar-cli": "^1.2.0",
+        "concurrently": "^3.5.0",
+        "elm": "^0.18.0"
+    }
 }
