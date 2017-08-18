@@ -1,0 +1,88 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.53.1"
+
+default_platform :ios
+
+platform :ios do
+
+  desc "Build alpha and deploy to hockeyapp"
+  lane :build_alpha do
+    build_hockey(
+      release_type: 'alpha',
+      hockey_id: 'HOCKEY_ID_FOR_ALPHA'
+    )
+  end
+
+  desc "Build beta and deploy to hockeyapp"
+  lane :build_beta do
+    build_hockey(
+      release_type: 'beta',
+      hockey_id: 'HOCKEY_ID_FOR_BETA'
+    )
+  end
+
+  private_lane :build_hockey do |options|
+    ENV["APP_IDENTIFIER"] = "com.example.hello.#{options[:release_type]}"
+    sh "./pre_build.sh .#{options[:release_type]}"
+
+    cordova(
+      platform: 'ios',
+      type: 'enterprise'
+    )
+
+    hockey(
+      api_token: ENV['HOCKEY_API_TOKEN'],
+      public_identifier: options[:hockey_id],
+      ipa: ENV['CORDOVA_IOS_RELEASE_BUILD_PATH']
+    )
+  end
+end
+
+platform :android do
+
+  desc "Build alpha and deploy to hockeyapp"
+  lane :hockeyapp_alpha do
+    build_hockey(
+      release_type: "alpha"
+    )
+  end
+
+  desc "Build beta and deploy to hockeyapp"
+  lane :hockeyapp_beta do
+    build_hockey(
+      release_type: "beta"
+    )
+  end
+
+  private_lane :build_hockey do |options|
+    ENV["APP_IDENTIFIER"] = "com.example.hello.#{options[:release_type]}"
+    sh "./pre_build.sh .#{options[:release_type]}"
+
+    cordova(
+      platform: 'android',
+      keystore_path: './path/to/your.keystore',
+      keystore_alias: 'hello',
+      keystore_password: 'world'
+    )
+
+    #Upload the build to HockeyApp
+    hockey(
+        apk: ENV['CORDOVA_ANDROID_RELEASE_BUILD_PATH'],
+        api_token: ENV['HOCKEY_API_TOKEN'],
+        public_identifier: options[:hockey_id],
+        notes_type: "0"
+    )
+  end
+end
